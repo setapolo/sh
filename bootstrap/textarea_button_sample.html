@@ -13,7 +13,7 @@
 <script>
 $(function(){
   $('#rectButton').on('click', function (e) {
-    alert('Hello!');
+    $("#out").html("123");
   });
 });
 </script>
@@ -41,6 +41,9 @@ $(function(){
     </div>
  </div>
   </form>
-<button id="rectButton" class="btn">Rectangle</button> </body>
-</div>
+<button id="rectButton" class="btn">Rectangle</button> 
+  <div class="panel panel-default">
+    <div class="panel-body" id="out">A Basic Panel</div>
+  </div>
+</body>
 </html>
