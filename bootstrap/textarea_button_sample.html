@@ -12,8 +12,26 @@
 
 <script>
 $(function(){
+  String.prototype.RegExp = function(s){
+    return new RegExp(this,s);
+  };
+  function replace_text(){
+    var c = $("#regexp").val().toString().RegExp("ig");
+    var s = $("#replace").val();
+    var ss = $("#stdin").val().toString().replace(c,s);
+    $("#stdout").html(ss);
+  }
+  $('#stdin').on('keydown', function (e) {
+    replace_text();
+  });
+  $('#regexp').on('change', function (e) {
+    replace_text();
+  });
+  $('#replace').on('keydown', function (e) {
+    replace_text();
+  });
   $('#rectButton').on('click', function (e) {
-    $("#out").html("123");
+    replace_text();
   });
 });
 </script>
@@ -24,26 +42,25 @@ $(function(){
   <form role="form">
 <div class="row">
     <div class="col-md-6">
-      <label for="usr">Name:</label>
-      <input type="text" class="form-control" id="usr"　width="20">
+      <label for="usr">stdin:</label>
+      <textarea  class="form-control" rows="5" id="stdin">bye,world</textarea>
     </div>
  </div>
 <div class="row">
     <div class="col-md-6">
-      <label for="pwd">Password:</label>
-      <input type="password" class="form-control" id="pwd">
+      <label for="comment">RegExp:</label>
+      <textarea  class="form-control" rows="5" id="regexp">bye</textarea>
     </div>
- </div>
-<div class="row">
+ </div><div class="row">
     <div class="col-md-6">
-      <label for="comment">Comment:</label>
-      <textarea  class="form-control" rows="5" id="comment"></textarea>
+      <label for="pwd">replace</label>
+      <input type="text" class="form-control" id="replace" value="hello">
     </div>
  </div>
   </form>
 <button id="rectButton" class="btn">Rectangle</button> 
   <div class="panel panel-default">
-    <div class="panel-body" id="out">A Basic Panel</div>
+    <div class="panel-body" id="stdout">hello,world</div>
   </div>
 </body>
 </html>
