@@ -2,16 +2,6 @@
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<script>
-$(document).ready(function(){
-    $("#hide").click(function(){
-        $("p").hide();
-    });
-    $("#show").click(function(){
-        $("p").show();
-    });
-});
-</script>
 </head>
 <body>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"></link>
@@ -19,6 +9,24 @@ $(document).ready(function(){
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script>
 $(function(){
+  var query=(function(s,c1,c2,c3,h) {
+    if (s.match((new RegExp(["[",c1,"]"].join())))){
+      var aa =s.split(c1)[1].split(c2);
+	  for ( i = 0; i < aa.length; i++ ) {
+	    var a = aa[i].split(c3);
+	    h[((a[0])?a[0]:"nil")]=((a[1])?a[1]:"nil");
+	  }
+	}
+    return h;
+  })(location.href,"?","&","=",{});
+
+  query["#stdin"] = ((query["q"])?query["q"]:null);
+  for (k in query){
+  	if ($(k)){
+  		$(k).val((query[k])?query[k]:$(k).val());
+  	}
+  }
+
   String.prototype.RegExp = function(s){
     return new RegExp(this,s);
   };
@@ -41,9 +49,82 @@ $(function(){
     replace_text();
   });
   $('#hello').on('click', function (e) {
-    alert("hello");
+  	var ss="hello";
+    $("#stdin").val(ss);
+    replace_text();
+  });
+  $('#hamlet').on('click', function (e) {
+	var ss = (function(){/*
+To be, or not to be: that is the question:
+Whether 'tis nobler in the mind to suffer
+The slings and arrows of outrageous fortune,
+Or to take arms against a sea of troubles,
+And by opposing end them? To die: to sleep;
+No more; and by a sleep to say we end
+The heart-ache and the thousand natural shocks
+That flesh is heir to, 'tis a consummation
+Devoutly to be wish'd. To die, to sleep;
+To sleep: perchance to dream: ay, there's the rub;
+For in that sleep of death what dreams may come
+When we have shuffled off this mortal coil,
+Must give us pause: there's the respect
+That makes calamity of so long life;
+For who would bear the whips and scorns of time,
+The oppressor's wrong, the proud man's contumely,
+The pangs of despised love, the law's delay,
+The insolence of office and the spurns
+That patient merit of the unworthy takes,
+When he himself might his quietus make
+With a bare bodkin? who would fardels bear,
+To grunt and sweat under a weary life,
+But that the dread of something after death,
+The undiscover'd country from whose bourn
+No traveller returns, puzzles the will
+And makes us rather bear those ills we have
+Than fly to others that we know not of?
+Thus conscience does make cowards of us all;
+And thus the native hue of resolution
+Is sicklied o'er with the pale cast of thought,
+And enterprises of great pith and moment
+With this regard their currents turn awry,
+And lose the name of action.
+*/}).toString().match(/\/\*[\s\S]*\*\//)[0].replace(/\/\*|\*\//g,'');
+    $("#stdin").val(ss);
+    replace_text();
+  });
+  $('#pi').on('click', function (e) {
+	var ss = (function(){/*
+3.1415926535 8979323846 2643383279 5028841971 6939937510 5820974944 5923078164 0628620899 8628034825 3421170679
+8214808651 3282306647 0938446095 5058223172 5359408128 4811174502 8410270193 8521105559 6446229489 5493038196
+4428810975 6659334461 2847564823 3786783165 2712019091 4564856692 3460348610 4543266482 1339360726 0249141273
+7245870066 0631558817 4881520920 9628292540 9171536436 7892590360 0113305305 4882046652 1384146951 9415116094
+3305727036 5759591953 0921861173 8193261179 3105118548 0744623799 6274956735 1885752724 8912279381 8301194912
+9833673362 4406566430 8602139494 6395224737 1907021798 6094370277 0539217176 2931767523 8467481846 7669405132
+0005681271 4526356082 7785771342 7577896091 7363717872 1468440901 2249534301 4654958537 1050792279 6892589235
+4201995611 2129021960 8640344181 5981362977 4771309960 5187072113 4999999837 2978049951 0597317328 1609631859
+5024459455 3469083026 4252230825 3344685035 2619311881 7101000313 7838752886 5875332083 8142061717 7669147303
+5982534904 2875546873 1159562863 8823537875 9375195778 1857780532 1712268066 1300192787 6611195909 2164201989
+*/}).toString().match(/\/\*[\s\S]*\*\//)[0].replace(/\/\*|\*\//g,'');
+    $("#stdin").val(ss);
+    replace_text();
   });
 
+
+  Array.prototype.on_func=function(id){
+  	var d = this[0];
+  	var c = this[1];
+  	var s = this[2];
+  	return function(){
+  		$(d).on(c,function(e){
+	  		$(id).val(s);
+	  		replace_text();
+ 		});
+  	};
+  };
+  ["#a2z","click","([a-z])"].on_func("#regexp")();
+  ["#numbers","click","([0-9])"].on_func("#regexp")();
+  ["#dot","click","(.)"].on_func("#regexp")();
+  ["#hit_space","click","$1 "].on_func("#replace")();
 
 
 });
@@ -52,37 +133,39 @@ $(function(){
 <br />
 <div class="container">
 <h2>
-Form control: textarea</h2>
+:RegExp</h2>
 The form below contains a textarea for comments:<br />
 <form role="form">
 <div class="row">
 <div class="col-md-6">
-<label for="usr">stdin:<a id="hello">hello,world</a></label>
+<label for="usr">stdin:<a id="hello">hello,world</a>,<a id="hamlet">Hamlet</a>,<a id="pi">Pi</a></label>
       <textarea class="form-control" id="stdin" rows="5">bye,world</textarea>
     </div>
 </div>
 <div class="row">
 <div class="col-md-6">
-<label for="comment">RegExp:</label>
-      <textarea class="form-control" id="regexp" rows="5">bye</textarea>
+<label for="comment">RegExp:<a id="a2z">a to z</a>,<a id="numbers">0 to 9</a>,<a id="dot">(.) one char</a></label>
+      <textarea class="form-control" id="regexp" rows="3">bye</textarea>
     </div>
 </div>
 <div class="row">
 <div class="col-md-6">
-<label for="pwd">replace</label>
+<label for="pwd">replace</label> <a id="hit_space">$1 </a>,
       <input class="form-control" id="replace" type="text" value="hello" />
     </div>
 </div>
 </form>
-<button class="btn" id="rectButton">Rectangle</button> 
-  <br />
+<br />
+<div class="row">
+<div class="col-md-6">
 <div class="panel panel-default">
 <div class="panel-body" id="stdout">
 hello,world</div>
 </div>
 </div>
 </div>
-
+</div>
+</div>
 
 </body>
 </html>
