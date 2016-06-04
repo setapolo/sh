@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("#hide").click(function(){
+        $("p").hide();
+    });
+    $("#show").click(function(){
+        $("p").show();
+    });
+});
+</script>
+</head>
+<body>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"></link>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script>
+$(function(){
+  String.prototype.RegExp = function(s){
+    return new RegExp(this,s);
+  };
+  function replace_text(){
+    var c = $("#regexp").val().toString().RegExp("ig");
+    var s = $("#replace").val();
+    var ss = $("#stdin").val().toString().replace(c,s);
+    $("#stdout").html(ss);
+  }
+  $('#stdin').on('keyup', function (e) {
+    replace_text();
+  });
+  $('#regexp').on('change', function (e) {
+    replace_text();
+  });
+  $('#replace').on('keyup', function (e) {
+    replace_text();
+  });
+  $('#rectButton').on('click', function (e) {
+    replace_text();
+  });
+  $('#hello').on('click', function (e) {
+    alert("hello");
+  });
+
+
+
+});
+</script>
+
+<br />
+<div class="container">
+<h2>
+Form control: textarea</h2>
+The form below contains a textarea for comments:<br />
+<form role="form">
+<div class="row">
+<div class="col-md-6">
+<label for="usr">stdin:<a id="hello">hello,world</a></label>
+      <textarea class="form-control" id="stdin" rows="5">bye,world</textarea>
+    </div>
+</div>
+<div class="row">
+<div class="col-md-6">
+<label for="comment">RegExp:</label>
+      <textarea class="form-control" id="regexp" rows="5">bye</textarea>
+    </div>
+</div>
+<div class="row">
+<div class="col-md-6">
+<label for="pwd">replace</label>
+      <input class="form-control" id="replace" type="text" value="hello" />
+    </div>
+</div>
+</form>
+<button class="btn" id="rectButton">Rectangle</button> 
+  <br />
+<div class="panel panel-default">
+<div class="panel-body" id="stdout">
+hello,world</div>
+</div>
+</div>
+</div>
+
+
+</body>
+</html>

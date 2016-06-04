@@ -38,6 +38,19 @@ var mathField = MQ.MathField(mathFieldSpan, {
 });
 </script>
 
+<p>Solve <span id="problem">ax^2 + bx + c = 0</span>.</p>
+<p>LaTeX: <span id="latex2"></span></p>
+
+<script>
+  var problemSpan = document.getElementById('problem');
+  var latexSpan2 = document.getElementById('latex2');
+  var a =  MQ.StaticMath(problemSpan);
+  latexSpan2.textContent = a.latex();
+
+
+</script>
+
+
 
 </body>
 </html>
