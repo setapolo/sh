@@ -59,11 +59,21 @@ $(function(){
   });
   $('#testdomain').on('click', function (e) {
 	var ss = (function(){/*
-.test
-.example
-.invalid
-.localhost
-.テスト
+www.dummy.tes2
+www.dummy.example
+www.dummy.invalid
+www.dummy.localhost
+www.dummy
+localhost.tes2
+localhost.example
+localhost.invalid
+localhost.localhost
+localhost
+www.abc.tes2
+www.abc.example
+www.abc.invalid
+www.abc.localhost
+www.abc
 */}).toString().match(/\/\*[\s\S]*\*\//)[0].replace(/\/\*|\*\//g,'');
     $("#stdin").val(ss);
     replace_text();
