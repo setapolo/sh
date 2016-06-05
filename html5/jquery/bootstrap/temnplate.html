@@ -38,12 +38,18 @@ $(function(){
   };
   function main_process(){
     var ss = "";
+    if($('#radio1').is(':checked')){
+      ss=(["var f = function(",$('#params').val(),"){return 1}"].join(""));
+    }else{
+      ss=(["(function(",$('#params').val(),"){return 1})(a,b,c)"]);
+    } 
+    
     $("#stdout").html(ss);
   }
   $('#stdin').on('keyup', function (e) {
     main_process();
   });
-  $('#regexp').on('keyup', function (e) {
+  $('#params').on('keyup', function (e) {
     main_process();
   });
   $('#replace').on('keyup', function (e) {
@@ -59,10 +65,10 @@ $(function(){
   });
 
   $('#radio1').on('change', function (e) {
-    $('#stdout').html("var f = function(){return 1}");
+    main_process();
   });
   $('#radio2').on('change', function (e) {
-    $('#stdout').html("(function(a,b,c){return 1})(a,b,c)");
+    main_process();
   });
 
 
@@ -145,7 +151,7 @@ main_process();
       <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>Info
     </button>
   </h2>
-The form below contains a textarea for comments:<br />
+CAST IN THE NAME OF GOD. YE NOT GUILTY.:<br />
   <form role="form">
     <div class="row">
       <div class="col-md-6">
@@ -160,19 +166,10 @@ The form below contains a textarea for comments:<br />
     <div class="row">
       <div class="col-md-6">
       <label for="comment">params:<a id="a2z">a to z</a> , <a id="numbers">0 to 9</a> , <a id="dot">(.) one char</a> , <a id="oneline">(.*\n)one line</a> <a id="zenkaku">zenkaku#1</a></label>
-      <input class="form-control" id="regexp" type="text" value="a,b,c" />
+      <input class="form-control" id="params" type="text" value="a,b,c" />
 
         <label for="usr">stdin:<a id="hello">hello,world</a>,<a id="hamlet">Hamlet</a>,<a id="pi">Pi</a>,<a id="testdomain">Test domain</a>,<a id="neko">neko</a></label>
         <textarea class="form-control" id="stdin" rows="3">bye,world</textarea>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <label for="comment">match:</label>
-        <div class="panel panel-default" id="matchp">
-          <div class="panel-body" id="match">
-          </div>
-        </div>
       </div>
     </div>
     <div class="row">
