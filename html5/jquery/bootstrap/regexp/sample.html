@@ -5,6 +5,8 @@
 </head>
 <body>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"></link>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.0.0/bootstrap-social.css" rel="stylesheet"></link>
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script>
@@ -35,15 +37,28 @@ $(function(){
     return new RegExp(this,s);
   };
   function replace_text(){
+    var ss = "";
     var c = $("#regexp").val().toString().RegExp("ig");
     var s = $("#replace").val();
-    var ss = $("#stdin").val().toString().replace(c,s);
+    $("#match").html("");
+    if($("#stdin").val().toString().match(c)){
+      ss = $("#stdin").val().toString().replace(c,s);
+      $("#match").html("true");
+      $("#match").removeClass('bg-warning')
+      $("#match").addClass('bg-success');
+    }else{
+      $("#match").removeClass('bg-success')
+      $("#match").addClass('bg-warning');
+      $("#match").html("false");
+    }
     $("#stdout").html(ss);
+    var hdoc = 
+    $("#stdout2").html(["s.replace(/",$("#regexp").val().toString(),"/ig,","'",s,"');"].join(""));
   }
   $('#stdin').on('keyup', function (e) {
     replace_text();
   });
-  $('#regexp').on('change', function (e) {
+  $('#regexp').on('keyup', function (e) {
     replace_text();
   });
   $('#replace').on('keyup', function (e) {
@@ -57,6 +72,9 @@ $(function(){
     $("#stdin").val(ss);
     replace_text();
   });
+
+
+
   $('#testdomain').on('click', function (e) {
 	var ss = (function(){/*
 www.dummy.tes2
@@ -74,10 +92,28 @@ www.abc.example
 www.abc.invalid
 www.abc.localhost
 www.abc
-*/}).toString().match(/\/\*[\s\S]*\*\//)[0].replace(/\/\*|\*\//g,'');
+*/}).toString().match(/\/\*[\s\S]*\*\//)[0].replace(/\/\*|\*\//g,'').replace(/^.*/,'').split("\n").filter(function(e,i,a){return (i==0)? false: true}).filter(function(e,i,a){return (i==a.length-1)? false: true}).join("\n");
+
+
+
+
+
+
     $("#stdin").val(ss);
     replace_text();
   });
+
+
+
+$('#neko').on('click', function (e) {
+var ss = (function(){/*
+吾輩は猫である。名前はまだ無い。
+　どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。ただ彼の掌に載せられてスーと持ち上げられた時何だかフワフワした感じがあったばかりである。掌の上で少し落ちついて書生の顔を見たのがいわゆる人間というものの見始であろう。この時妙なものだと思った感じが今でも残っている。第一毛をもって装飾されべきはずの顔がつるつるしてまるで薬缶だ。その後猫にもだいぶ逢ったがこんな片輪には一度も出会わした事がない。のみならず顔の真中があまりに突起している。そうしてその穴の中から時々ぷうぷうと煙を吹く。どうも咽せぽくて実に弱った。これが人間の飲む煙草というものである事はようやくこの頃知った。
+*/}).toString().match(/\/\*[\s\S]*\*\//)[0].replace(/\/\*|\*\//g,'').split("\n").filter(function(e,i,a){return (i==0)? false: true}).filter(function(e,i,a){return (i==a.length-1)? false: true}).join("\n");
+    $("#stdin").val(ss);
+    replace_text();
+  });
+
 
   $('#hamlet').on('click', function (e) {
 	var ss = (function(){/*
@@ -114,10 +150,12 @@ Is sicklied o'er with the pale cast of thought,
 And enterprises of great pith and moment
 With this regard their currents turn awry,
 And lose the name of action.
-*/}).toString().match(/\/\*[\s\S]*\*\//)[0].replace(/\/\*|\*\//g,'');
+*/}).toString().match(/\/\*[\s\S]*\*\//)[0].replace(/\/\*|\*\//g,'').split("\n").filter(function(e,i,a){return (i==0)? false: true}).filter(function(e,i,a){return (i==a.length-1)? false: true}).join("\n");
     $("#stdin").val(ss);
     replace_text();
   });
+
+
   $('#pi').on('click', function (e) {
 	var ss = (function(){/*
 3.1415926535 8979323846 2643383279 5028841971 6939937510 5820974944 5923078164 0628620899 8628034825 3421170679
@@ -130,7 +168,7 @@ And lose the name of action.
 4201995611 2129021960 8640344181 5981362977 4771309960 5187072113 4999999837 2978049951 0597317328 1609631859
 5024459455 3469083026 4252230825 3344685035 2619311881 7101000313 7838752886 5875332083 8142061717 7669147303
 5982534904 2875546873 1159562863 8823537875 9375195778 1857780532 1712268066 1300192787 6611195909 2164201989
-*/}).toString().match(/\/\*[\s\S]*\*\//)[0].replace(/\/\*|\*\//g,'');
+*/}).toString().match(/\/\*[\s\S]*\*\//)[0].replace(/\/\*|\*\//g,'').split("\n").filter(function(e,i,a){return (i==0)? false: true}).filter(function(e,i,a){return (i==a.length-1)? false: true}).join("\n");
     $("#stdin").val(ss);
     replace_text();
   });
@@ -150,47 +188,123 @@ And lose the name of action.
   ["#a2z","click","([a-z])"].on_func("#regexp")();
   ["#numbers","click","([0-9])"].on_func("#regexp")();
   ["#dot","click","(.)"].on_func("#regexp")();
+  ["#oneline","click","(.*\\n)"].on_func("#regexp")();
+  ["#zenkaku","click","([^\x01-\x7E])"].on_func("#regexp")();
+
   ["#hit_space","click","$1 "].on_func("#replace")();
-  ["#oneline","click","(.*\n)"].on_func("#regexp")();
+  ["#hit_br","click","$1 <BR>"].on_func("#replace")();
+  ["#hit_bracket","click","($1)"].on_func("#replace")();
 
 
+  var loop=function(a,f){
+    console.log(a);
+    for(var i=0;i<a.length;i++){
+      (f)(a[i][0],a[i][1]);
+    }
+  };
+  (loop)([
+    ['#info',"正規表現(Regular Expression)を勉強するためのページです。"],
+    ['#hamlet',"ハムレットの独白"],
+    ['#neko',"我輩は猫である"],
+    ['#pi',"円周率"],
+    ['#hello',"ハロー"],
+    ['#testdomain',"RFC0626を参考にしたテストドメインデータ"],
+    ['#a2z',"aからzまでの文字が対象"],
+    ['#numbers',"0から9までの数字が対象"],
+    ['#zenkaku',"全角文字のヒットその1"],
+    ['#dot',"任意の位置文字が対象"],
+    ['#hit_space',"対象($1)の後に空白を付加します"],
+    ['#hit_br',"対象($1)の後に改行\\nを付加します"],
+    ['#oneline',"改行コード(\\n)までの任意の文字(.*)を対象にします"],
+    ['#func_ltgt',"置き換え時に関数を呼び出します(タグの書き換え)"]
+
+  ],
+  (function(id,s){
+      $(id).attr("data-toggle","tooltip");
+      $(id).attr("title",s);
+      $(id)['tooltip']();
+    }));
+replace_text();
 });
 </script>
 
 <br />
 <div class="container">
-<h2>
-:RegExp</h2>
+  <h2>
+    :RegExp
+    <button id="info" type="button" class="btn btn-default" aria-label="Left Align">
+      <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>Info
+    </button>
+  </h2>
 The form below contains a textarea for comments:<br />
-<form role="form">
-<div class="row">
-<div class="col-md-6">
-<label for="usr">stdin:<a id="hello">hello,world</a>,<a id="hamlet">Hamlet</a>,<a id="pi">Pi</a>,<a id="testdomain">Test domain</a></label>
-      <textarea class="form-control" id="stdin" rows="5">bye,world</textarea>
+  <form role="form">
+    <div class="row">
+      <div class="col-md-6">
+        <label for="usr">stdin:<a id="hello">hello,world</a>,<a id="hamlet">Hamlet</a>,<a id="pi">Pi</a>,<a id="testdomain">Test domain</a>,<a id="neko">neko</a></label>
+        <textarea class="form-control" id="stdin" rows="5">bye,world</textarea>
+      </div>
     </div>
-</div>
-<div class="row">
-<div class="col-md-6">
-<label for="comment">RegExp:<a id="a2z">a to z</a> , <a id="numbers">0 to 9</a> , <a id="dot">(.) one char</a> , <a id="oneline">(.*\n)one line</a></label>
-      <textarea class="form-control" id="regexp" rows="3">bye</textarea>
+    <div class="row">
+      <div class="col-md-6">
+      <label for="comment">RegExp:<a id="a2z">a to z</a> , <a id="numbers">0 to 9</a> , <a id="dot">(.) one char</a> , <a id="oneline">(.*\n)one line</a> <a id="zenkaku">zenkaku#1</a></label>
+      <input class="form-control" id="regexp" type="text" value="bye" />
+      </div>
     </div>
-</div>
-<div class="row">
-<div class="col-md-6">
-<label for="pwd">replace</label> <a id="hit_space">$1 </a>,
-      <input class="form-control" id="replace" type="text" value="hello" />
+    <div class="row">
+      <div class="col-md-6">
+        <label for="comment">match:</label>
+        <div class="panel panel-default" id="matchp">
+          <div class="panel-body" id="match">
+          </div>
+        </div>
+      </div>
     </div>
-</div>
-</form>
-<br />
-<div class="row">
-<div class="col-md-6">
-<div class="panel panel-default">
-<div class="panel-body" id="stdout">
-hello,world</div>
-</div>
-</div>
-</div>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="pwd">replace</label> <a id="hit_space">$1 SP</a>, <a id="hit_br">$1 BR</a>,<a id="hit_bracket">($1)</a>,<a id="func_ltgt">(func:letgt)</a>
+        <input class="form-control" id="replace" type="text" value="hello" />
+      </div>
+    </div>
+  </form>
+  <br />
+
+  <div class="row">
+    <div class="col-md-6">
+    </div>
+  </div>
+view plain
+  <div class="row">
+    <div class="col-md-6">
+      <!--タブ-->
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a href="#tab1" data-toggle="tab">Result(plain)</a>
+        </li>
+        <li>
+          <a href="#tab2" data-toggle="tab">RegExp(javascript)</a>
+        </li>
+      </ul>
+      <!-- / タブ-->
+      <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade in active" id="tab1">
+        <div class="panel panel-default">
+          <div class="panel-body" id="stdout">
+            hello,world
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="tab2">
+        <div class="panel panel-default">
+          <textarea class="form-control" id="stdout2" rows="5">
+            bye,world
+          </textarea>
+          <div class="panel-body" id="stdout2">
+            コンテンツ２
+          </div>
+        </div>
+      </div>
+      </div>
+  </div>
 </div>
 </div>
 
