@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+</head>
+<body>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"></link>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.0.0/bootstrap-social.css" rel="stylesheet"></link>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script>
+$(function(){
+  var query=(function(s,c1,c2,c3,h) {
+  	//the s format is [something]c1[a[0]]c3[a[1]]c2[a[0]]c3[a[1]]...]
+    //s = http://localhost?a=1&b=2&b=3
+    //value returns as h
+    if (s.match((new RegExp(["[",c1,"]"].join())))){
+      var aa =s.split(c1)[1].split(c2);
+  	  for ( i = 0; i < aa.length; i++ ) {
+  	    var a = aa[i].split(c3);
+  	    h[((a[0])?a[0]:"nil")]=((a[1])?a[1]:"nil");
+  	  }
+    }
+    return h;
+  })(location.href,"?","&","=",{});
+  query["#stdin"] = ((query["q"])?query["q"]:null);
+  for (k in query){
+  	if ($(k)){
+  		$(k).val((query[k])?query[k]:$(k).val());
+  	}
+  }
+
+
+});
+</script>
+<div class="container">
+    <div class="row">
+      <div class="col-xs-8">
+        <div class="row">
+          <div class="col-xs-8">
+        <textarea class="form-control" id="stdin" rows="1">bye,world</textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-8">
+        <textarea class="form-control" id="stdin" rows="30">bye,world</textarea>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <textarea class="form-control" id="stdin" rows="30">bye,world</textarea>
+      </div>
+    </div>
+</div>
+
+</body>
+</html>
