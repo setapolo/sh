@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+</head>
+<body>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"></link>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.0.0/bootstrap-social.css" rel="stylesheet"></link>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script>
+$(function(){
+
+  var query=(function(s,c1,c2,c3,h) {
+  	//the s format is [something]c1[a[0]]c3[a[1]]c2[a[0]]c3[a[1]]...]
+    //s = http://localhost?a=1&b=2&b=3
+    //value returns as h
+    if (s.match((new RegExp(["[",c1,"]"].join())))){
+      var aa =s.split(c1)[1].split(c2);
+	  for ( i = 0; i < aa.length; i++ ) {
+	    var a = aa[i].split(c3);
+	    h[((a[0])?a[0]:"nil")]=((a[1])?a[1]:"nil");
+	  }
+	}
+    return h;
+  })(location.href,"?","&","=",{});
+
+  query["#stdin"] = ((query["q"])?query["q"]:null);
+  for (k in query){
+  	if ($(k)){
+  		$(k).val((query[k])?query[k]:$(k).val());
+  	}
+  }
+
+  String.prototype.RegExp = function(s){
+    return new RegExp(this,s);
+  };
+  function main_process(){
+    var ss = "";
+    $("#stdout").html(ss);
+  }
+  $('#stdin').on('keyup', function (e) {
+    main_process();
+  });
+  $('#regexp').on('keyup', function (e) {
+    main_process();
+  });
+  $('#replace').on('keyup', function (e) {
+    main_process();
+  });
+  $('#rectButton').on('click', function (e) {
+    main_process();
+  });
+  $('#hello').on('click', function (e) {
+  	var ss="hello";
+    $("#stdin").val(ss);
+    main_process();
+  });
+
+  $('#radio1').on('change', function (e) {
+    $('#stdout').html("var f = function(){return 1}");
+  });
+  $('#radio2').on('change', function (e) {
+    $('#stdout').html("(function(a,b,c){return 1})(a,b,c)");
+  });
+
+
+  $('#testdomain').on('click', function (e) {
+	var ss = (function(){/*
+www.dummy.tes2
+www.dummy.example
+www.dummy.invalid
+www.dummy.localhost
+www.dummy
+localhost.tes2
+localhost.example
+localhost.invalid
+localhost.localhost
+localhost
+www.abc.tes2
+www.abc.example
+www.abc.invalid
+www.abc.localhost
+www.abc
+*/}).toString().match(/\/\*[\s\S]*\*\//)[0].replace(/\/\*|\*\//g,'').replace(/^.*/,'').split("\n").filter(function(e,i,a){return (i==0)? false: true}).filter(function(e,i,a){return (i==a.length-1)? false: true}).join("\n");
+
+
+
+
+
+
+    $("#stdin").val(ss);
+    main_process();
+  });
+
+
+  Array.prototype.on_func=function(id){
+  	var d = this[0];
+  	var c = this[1];
+  	var s = this[2];
+  	return function(){
+  		$(d).on(c,function(e){
+	  		$(id).val(s);
+	  		main_process();
+ 		});
+  	};
+  };
+
+  ["#a2z","click","([a-z])"].on_func("#regexp")();
+  ["#numbers","click","([0-9])"].on_func("#regexp")();
+  ["#dot","click","(.)"].on_func("#regexp")();
+  ["#oneline","click","(.*\\n)"].on_func("#regexp")();
+  ["#zenkaku","click","([^\x01-\x7E])"].on_func("#regexp")();
+  ["#hit_space","click","$1 "].on_func("#replace")();
+  ["#hit_br","click","$1 <BR>"].on_func("#replace")();
+  ["#hit_bracket","click","($1)"].on_func("#replace")();
+
+  var loop=function(a,f){
+    console.log(a);
+    for(var i=0;i<a.length;i++){
+      (f)(a[i][0],a[i][1]);
+    }
+  };
+  (loop)([
+    ['#info',"無名関数を勉強するためのページです。"],
+    ['#title',"無名関数ジェネレーター"],
+    ['#func_ltgt',"置き換え時に関数を呼び出します(タグの書き換え)"]
+
+  ],
+  (function(id,s){
+      $(id).attr("data-toggle","tooltip");
+      $(id).attr("title",s);
+      $(id)['tooltip']();
+    }));
+main_process();
+});
+</script>
+
+<br />
+<div class="container">
+  <h2>
+    :<label id="title">nameless func</label>
+    <button id="info" type="button" class="btn btn-default" aria-label="Left Align">
+      <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>Info
+    </button>
+  </h2>
+The form below contains a textarea for comments:<br />
+  <form role="form">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="radio">
+          <label><input type="radio" name="radio" id="radio1" value="radio1">無名関数</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="radio" id="radio2" value="radio2" checked="">即時関数</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+      <label for="comment">params:<a id="a2z">a to z</a> , <a id="numbers">0 to 9</a> , <a id="dot">(.) one char</a> , <a id="oneline">(.*\n)one line</a> <a id="zenkaku">zenkaku#1</a></label>
+      <input class="form-control" id="regexp" type="text" value="a,b,c" />
+
+        <label for="usr">stdin:<a id="hello">hello,world</a>,<a id="hamlet">Hamlet</a>,<a id="pi">Pi</a>,<a id="testdomain">Test domain</a>,<a id="neko">neko</a></label>
+        <textarea class="form-control" id="stdin" rows="3">bye,world</textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="comment">match:</label>
+        <div class="panel panel-default" id="matchp">
+          <div class="panel-body" id="match">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="pwd">replace</label> <a id="hit_space">$1 SP</a>, <a id="hit_br">$1 BR</a>,<a id="hit_bracket">($1)</a>,<a id="func_ltgt">(func:letgt)</a>
+        <input class="form-control" id="replace" type="text" value="hello" />
+      </div>
+    </div>
+  </form>
+  <br />
+
+  <div class="row">
+    <div class="col-md-6">
+    </div>
+  </div>
+view plain
+  <div class="row">
+    <div class="col-md-6">
+      <!--タブ-->
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a href="#tab1" data-toggle="tab">Result(plain)</a>
+        </li>
+        <li>
+          <a href="#tab2" data-toggle="tab">RegExp(javascript)</a>
+        </li>
+      </ul>
+      <!-- / タブ-->
+      <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade in active" id="tab1">
+        <div class="panel panel-default">
+          <div class="panel-body" id="stdout">
+            hello,world
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="tab2">
+        <div class="panel panel-default">
+          <textarea class="form-control" id="stdout2" rows="5">
+            bye,world
+          </textarea>
+          <div class="panel-body" id="stdout2">
+            コンテンツ２
+          </div>
+        </div>
+      </div>
+      </div>
+  </div>
+</div>
+</div>
+
+</body>
+</html>

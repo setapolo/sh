@@ -52,8 +52,9 @@ $(function(){
       $("#match").html("false");
     }
     $("#stdout").html(ss);
-    var hdoc = 
     $("#stdout2").html(["s.replace(/",$("#regexp").val().toString(),"/ig,","'",s,"');"].join(""));
+    $("#stdout3").html(["s.match(/",$("#regexp").val().toString(),"/ig"].join(""));
+
   }
   $('#stdin').on('keyup', function (e) {
     replace_text();
@@ -281,28 +282,35 @@ view plain
           <a href="#tab1" data-toggle="tab">Result(plain)</a>
         </li>
         <li>
-          <a href="#tab2" data-toggle="tab">RegExp(javascript)</a>
+          <a href="#tab2" data-toggle="tab">src(replace)</a>
+        </li>
+        <li>
+          <a href="#tab3" data-toggle="tab">src(match)</a>
         </li>
       </ul>
       <!-- / タブ-->
       <div id="myTabContent" class="tab-content">
-      <div class="tab-pane fade in active" id="tab1">
-        <div class="panel panel-default">
-          <div class="panel-body" id="stdout">
-            hello,world
+        <div class="tab-pane fade in active" id="tab1">
+          <div class="panel panel-default">
+            <div class="panel-body" id="stdout">
+              hello,world
+            </div>
           </div>
         </div>
-      </div>
-      <div class="tab-pane fade" id="tab2">
-        <div class="panel panel-default">
-          <textarea class="form-control" id="stdout2" rows="5">
-            bye,world
-          </textarea>
-          <div class="panel-body" id="stdout2">
-            コンテンツ２
+        <div class="tab-pane fade" id="tab2">
+          <div class="panel panel-default">
+            <textarea class="form-control" id="stdout2" rows="5">
+              bye,world
+            </textarea>
           </div>
         </div>
-      </div>
+        <div class="tab-pane fade" id="tab3">
+          <div class="panel panel-default">
+            <textarea class="form-control" id="stdout3" rows="5">
+              bye,world
+            </textarea>
+          </div>
+        </div>
       </div>
   </div>
 </div>
