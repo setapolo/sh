@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<!-- jQueryの読込 -->
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<!-- JQVMapの読込 -->
+<link href="js/jqvmap/jqvmap.css" media="screen" rel="stylesheet" type="text/css" />
+<script src="js/jqvmap/jquery.vmap.packed.js"></script>
+<script src="js/jqvmap/maps/jquery.vmap.world.js"></script>
+
+<script>
+	$(function() {
+        $("#vmap1").vectorMap({
+            // ラベルが表示された時
+            onLabelShow: function(event, label, code) {
+                $("#msg1").text("onLabelShow: label= " + label.text() + ", code= " + code);
+            },
+            // マウスが領域上を動く時
+            onRegionOver: function(event, code, region) {
+                $("#msg2").text("onRegionOver: code= " + code + ", region= " + region);
+            },
+            // マウスが領域を離れた時
+            onRegionOut: function(event, code, region) {
+                $("#msg2").text("onRegionOut: code= " + code + ", region= " + region);
+            },
+            // 領域をクリックした時
+            onRegionClick: function(event, code, region) {
+                alert("onRegionClick: code= " + code + ", region= " + region);
+            }
+        });
+    });
+</script>
+
+<title>JQVMapサンプル3</title>
+</head>
+<body>
+    <h1>JQVMapサンプル3</h1>
+    <div id="vmap1" style="width:640px; height:480px;"></div>
+    <div>【イベント表示】</div>
+    <div id="msg1"></div>
+    <div id="msg2"></div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<!-- Google Maps APIの読込 -->
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
+<!-- jQueryの読込 -->
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<!-- gmap3の読込 -->
+<script type="text/javascript" src="js/gmap3/jquery.gmap3.js"></script>
+
+<script>
+    $(function() {
+        $("#gmap3_1").gmap3({
+            address: "札幌",
+            zoom: 15,
+            navigationControl: true,
+            mapTypeControl: true,
+            scaleControl: true,
+
+            markers: [
+                {
+                    latitude: 43.06255844743664,
+                    longitude: 141.35365694760856,
+                    title: "札幌時計台",
+                    content: "<div><h4>札幌時計台</h4><p>意外としょぼい</p></div>"
+                },
+                {
+                    address: "北海道札幌市中央区北3条西6丁目",
+                    title: "北海道庁",
+                    icon: "img/icon_star.png",
+                    content: "<div><h4>北海道庁</h4><p>いわゆる赤レンガです</p></div>",
+                    openInfo: true
+                }
+            ]
+        });
+
+        $("#markerAdd").click(function(){
+            $.gmap3.addMarker($("#gmap3_1"), {
+                  latitude: 43.060975033796325,
+                  longitude: 141.35523945092734,
+                  title: "大通公園",
+                  content: "<div><h4>大通公園</h4><p>道民憩いの場</p></div>"
+            });
+        });
+        $("#markerClear").click(function(){
+            $.gmap3.removeAllMarkers($("#gmap3_1"));
+        });
+    });
+</script>
+
+<title>gmap3サンプル3</title>
+</head>
+<body>
+    <h1>gmap3サンプル3</h1>
+    <div id="gmap3_1" style="width:640px;height:480px"></div>
+    <div><button id="markerAdd">マーカー追加</button><button id="markerClear">マーカー全削除</button>
+</body>
+</html>

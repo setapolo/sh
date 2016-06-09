@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<!-- jQueryの読込 -->
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<!-- JQVMapの読込 -->
+<link href="js/jqvmap/jqvmap.css" media="screen" rel="stylesheet" type="text/css" />
+<script src="js/jqvmap/jquery.vmap.packed.js"></script>
+<script src="js/jqvmap/maps/jquery.vmap.world.js"></script>
+
+<script>
+	$(function() {
+        $("#vmap1").vectorMap({
+            map: "world_en",
+            backgroundColor: "#7f7f7f",
+            color: "#ffffff",
+            selectedColor: "#666666",
+            borderColor: "#000000",
+            hoverOpacity: "0.5",
+            enableZoom: true,
+            showTooltip: true,
+        });
+    });
+</script>
+
+<title>JQVMapサンプル2</title>
+</head>
+<body>
+    <h1>JQVMapサンプル2</h1>
+    <div id="vmap1" style="width:640px; height:480px;"></div>
+</body>
+</html>

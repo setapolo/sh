@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<!-- Google Maps APIの読込 -->
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
+<!-- jQueryの読込 -->
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<script>
+    $(function() {
+        // Googleマップオブジェクト
+        var map;
+        // マーカー保持配列
+        var arrayMarkers = new google.maps.MVCArray();
+
+        // Geocoderで札幌の緯度・経度を取得
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({address:"札幌"}, function(results, status) {
+            var location = results[0].geometry.location;
+            var options = {
+                center: location,
+                zoom: 15,
+                navigationControl: true,
+                mapTypeControl: true,
+                scaleControl: true
+            };
+            // 地図を表示
+            map = new google.maps.Map($("#gmap3_1").get(0), options);
+
+            // markerを追加
+            var marker1 = new google.maps.Marker({
+                position: new google.maps.LatLng(43.06255844743664, 141.35365694760856),
+                map: map,
+                title: "札幌時計台"
+            });
+　　　　　　// markerに表示するInfoWindow（吹き出し）
+            var infoWindow1 = new google.maps.InfoWindow({
+                content: "<div><h4>札幌時計台</h4><p>意外としょぼい</p></div>"
+            });
+            // markerクリック時に吹き出しを表示
+            google.maps.event.addListener(marker1, "click", function() {
+                infoWindow1.open(map, marker1);
+            });
+            // markerを配列に保持
+            arrayMarkers.push(marker1);
+
+            // 2個めのmarkerはgeocoderを用いて住所から緯度・経度を取得
+            geocoder.geocode({address:"北海道札幌市中央区北3条西6丁目"}, function(results,status) {
+                var location = results[0].geometry.location;
+                var marker2 = new google.maps.Marker({
+                    position: location,
+                    map: map,
+                    title: "北海道庁",
+                    icon: "img/icon_star.png",
+                });
+                var infoWindow2 = new google.maps.InfoWindow({
+                    content: "<div><h4>北海道庁</h4><p>いわゆる赤レンガです</p></div>"
+                });
+                google.maps.event.addListener(marker2, "click", function() {
+                    infoWindow2.open(map, marker2);
+                });
+                google.maps.event.trigger(marker2, "click");
+
+                arrayMarkers.push(marker2);
+            });
+        });
+
+        $("#markerAdd").click(function(){
+            var marker3 = new google.maps.Marker({
+                position: new google.maps.LatLng(43.060975033796325, 141.35523945092734),
+                map: map,
+                title: "大通公園"
+            });
+            var infoWindow3 = new google.maps.InfoWindow({
+                content: "<div><h4>大通公園</h4><p>道民憩いの場</p></div>"
+            });
+            google.maps.event.addListener(marker3, "click", function() {
+                infoWindow3.open(map, marker3);
+            });
+            arrayMarkers.push(marker3);
+        });
+
+        $("#markerClear").click(function(){
+            arrayMarkers.forEach(function(marker, index) {
+                marker.setMap(null);
+            });
+            arrayMarkers = new google.maps.MVCArray();
+        });
+    });
+</script>
+
+<title>gmap3サンプル3（プラグインなし）</title>
+</head>
+<body>
+    <h1>gmap3サンプル3（プラグインなし）</h1>
+    <div id="gmap3_1" style="width:640px;height:480px"></div>
+    <div><button id="markerAdd">マーカー追加</button><button id="markerClear">マーカー全削除</button>
+</body>
+</html>

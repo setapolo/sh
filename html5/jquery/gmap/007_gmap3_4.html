@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<!-- Google Maps APIの読込 -->
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
+<!-- jQueryの読込 -->
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<!-- gmap3の読込 -->
+<script type="text/javascript" src="js/gmap3/jquery.gmap3.js"></script>
+
+<script>
+    $(function() {
+        $("#gmap3_1").gmap3({
+            address: "東京",
+            zoom: 8,
+            navigationControl: true,
+            mapTypeControl: true,
+            scaleControl: true
+        });
+        // 緯度・経度による移動
+        $("#button1").click(function(){
+            $.gmap3.panTo($("#gmap3_1"), {latitude:$("#lat").val(), longitude:$("#lng").val()});
+        });
+        // 地名による移動
+        $("#button2").click(function(){
+            $.gmap3.panTo($("#gmap3_1"), {address:$("#addr").val()});
+        });
+    });
+</script>
+
+<title>gmap3サンプル4</title>
+</head>
+<body>
+    <h1>gmap3サンプル4</h1>
+    <div id="gmap3_1" style="width:640px;height:480px"></div>
+    <div>緯度：<input type="text" id="lat"/> 経度：<input type="text" id="lng"/><button id="button1">移動</button></div>
+    <div>地名：<input type="text" id="addr"><button id="button2">移動</button></div>
+</body>
+</html>
